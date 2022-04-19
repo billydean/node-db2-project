@@ -53,7 +53,7 @@ const checkVinNumberValid = (req, res, next) => {
   if (isValid) {
     next();
   } else {
-    next({ status: 400, message: `vin ${vin} is invalid`})
+    res.status(400).json({ message: `vin ${vin} is invalid` })
   }
   } catch (err) {
     next(err);

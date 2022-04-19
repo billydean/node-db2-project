@@ -20,16 +20,17 @@ router.get('/:id', md.checkCarId, async (req, res, next) => {
     }
 })
 
-router.post('/', (req, res, next) => {
+router.post('/', md.checkCarPayload, md.checkVinNumberValid, md.checkVinNumberUnique, async (req, res, next) => {
     try {
-
+        const newCar = await Cars.create(req.body);
+        res.status(201).json(newCar);
     } catch (err) {
         next(err);
     }
 })
 
 router.use((err, req, res, next) => {
-    res.status(500).json({
+    res.status(err.status || 500).json({
         message: err.message,
     })
 })
